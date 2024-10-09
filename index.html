@@ -22,25 +22,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         const videoId = urlParams.get("id");
         // Set the video id to the iframe
-        const iframe = document.querypSelector("iframe");
+        const iframe = document.querySelector("iframe");
         
         iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&cc_load_policy=1`;
-        // When the iframe is loaded, add the custom style
-
-        
-        var style = `
-                        /* Hide the main video */
-                .html5-main-video {
-                    visibility: hidden;
-                }
-
-                /* Hide the video title */
-                .ytp-title-link {
-                    display: none;
-                }
-                    `;
-        iframe.style = style;
-        iframe.innerHTML += `<style>${style}</style>`;
 
         </script>
         <style>
