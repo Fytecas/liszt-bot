@@ -42,7 +42,7 @@ def get_random_url_in_messages(messages):
         # Take the vidio id from the link
         id = urls[0].split('v=')[1]
         id = id.split('&')[0]
-        return f"https://https://fytecas.github.io/liszt-bot/?id={id}"
+        return f"https://fytecas.github.io/liszt-bot/?id={id}"
     
     else:
         # Remove the message from the list and try again
