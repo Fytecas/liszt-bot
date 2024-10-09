@@ -17,24 +17,28 @@
         <p>This is the Listz's discord bot youtube embed page.</p>
         <p>It won't show you the title and the video</p>
         <script>
-            // Set the video id from the GET parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            const videoId = urlParams.get("id");
-            // Set the video id to the iframe
-            const iframe = document.querySelector("iframe");
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        // Set the video id from the GET parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoId = urlParams.get("id");
+        // Set the video id to the iframe
+        const iframe = document.querySelector("iframe");
+        // Apply the style to hide the video title
+        var style = `
+                        /* Hide the main video */
+                .html5-main-video {
+                    visibility: hidden;
+                }
+
+                /* Hide the video title */
+                .ytp-title-link {
+                    display: none;
+                }
+                    `;
+        iframe.style = style;
+        iframe.innerHTML += `<style>${style}</style>`;
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
         </script>
         <style>
-        /* Hide the main video */
-        .html5-main-video {
-            visibility: hidden;
-        }
-
-        /* Hide the video title */
-        .ytp-title-link {
-            display: none;
-        }
-
         </style>
     </body>
 </html>

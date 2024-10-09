@@ -21,7 +21,6 @@ async def ping(ctx: discord.ApplicationContext): # a slash command will be creat
 
 def get_random_right_channel(channels, ctx):
     random_i = random.randint(0, len(channels) - 1)
-    print(f"random_i: {random_i}")
     random_channel = channels[random_i]
     if random_channel.permissions_for(ctx.guild.me).read_message_history:
         return random_channel
@@ -35,10 +34,16 @@ def get_random_right_channel(channels, ctx):
 def get_random_url_in_messages(messages):
     random_i = random.randint(0, len(messages) - 1)
     message = messages[random_i]
-    urls = re.findall(r'(https?://[^\s]+)', message.content)
+    # Look for youtubes links in the message
+    print(message.content)
+    urls = re.findall(r'(https?://www.youtube.com/[^\s]+)', message.content)
     
-    if len(urls) > 0 and message.author != bot.user:
-        return urls[0]
+    if urls and message.author != bot.user:
+        # Take the vidio id from the link
+        id = urls[0].split('v=')[1]
+        id = id.split('&')[0]
+        return f"https://https://fytecas.github.io/liszt-bot/?id={id}"
+    
     else:
         # Remove the message from the list and try again
         messages.pop(random_i)
