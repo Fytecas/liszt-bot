@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Embed</title>
+</head>
+<body>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <script>
+        // Set the video id from the GET parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoId = urlParams.get('id');
+        // Set the video id to the iframe
+        const iframe = document.querySelector('iframe');
+        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+    </script>
+</body>
+</html>
