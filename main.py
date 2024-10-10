@@ -42,14 +42,30 @@ def get_random_url_in_messages(messages):
         # Take the vidio id from the link
         id = urls[0].split('v=')[1]
         id = id.split('&')[0]
-        return f"https://fytecas.github.io/liszt-bot/?id={id}"
+        return id, message.content
     
     else:
         # Remove the message from the list and try again
         messages.pop(random_i)
         if len(messages) == 0:
-            return None
+            return None, None
         return get_random_url_in_messages(messages)
+    
+class QuizView(discord.ui.View):
+    video_id: str
+    base_message: str
+    
+    def __init__(self, video_id: str, base_message: str):
+        self.video_id = video_id
+        self.base_message = base_message
+        super().__init__()
+        
+        self.add_item(discord.ui.Button(label="Go listen to the song", style=discord.ButtonStyle.link, url="https://fytecas.github.io/liszt-bot/?id=" + video_id))
+    
+    @discord.ui.button(label="Think I got it", style=discord.ButtonStyle.primary, row=1)
+    async def got_it(self, button: discord.ui.Button, interaction: discord.Interaction):
+        await interaction.response.send_message("Here is the original message:\n"+ self.base_message)
+    
     
 @bot.command(description="Quizz")
 async def quizz(
@@ -73,10 +89,12 @@ async def quizz(
         await ctx.respond("I don't have permission to read messages in any of the channels.")
         return
     messages = await channel.history(limit=200).flatten()
-    random_url = get_random_url_in_messages(messages)
-    if random_url is None:
+    id, content = get_random_url_in_messages(messages)
+    if id is None:
         await ctx.respond("I couldn't find any URLs in the messages. channel: " + channel.mention)
     else:
-        await ctx.respond(random_url)
+        embed = discord.Embed(title="Quizz", description="Guess the song from the lyrics", color=0x00ff00)
+        
+        await ctx.respond("Here is some random song", view=QuizView(id, content))
 
 bot.run(os.getenv('TOKEN')) # run the bot with the token
