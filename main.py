@@ -93,8 +93,6 @@ async def quizz(
     if id is None:
         await ctx.respond("I couldn't find any URLs in the messages. channel: " + channel.mention)
     else:
-        embed = discord.Embed(title="Quizz", description="Guess the song from the lyrics", color=0x00ff00)
-        
-        await ctx.respond("Here is some random song", view=QuizView(id, content))
+        await ctx.respond("**Here is some random song**", view=QuizView(id, content))
 
 bot.run(os.getenv('TOKEN')) # run the bot with the token
