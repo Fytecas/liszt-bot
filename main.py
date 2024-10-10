@@ -64,7 +64,7 @@ class QuizView(discord.ui.View):
     
     @discord.ui.button(label="Think I got it", style=discord.ButtonStyle.primary, row=1)
     async def got_it(self, button: discord.ui.Button, interaction: discord.Interaction):
-        await interaction.response.send_message("Here is the original message:\n"+ self.base_message)
+        await interaction.response.send_message("**Here is the original message:**\n"+ self.base_message)
     
     
 @bot.command(description="Quizz")
