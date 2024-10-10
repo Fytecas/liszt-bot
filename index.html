@@ -5,29 +5,99 @@
     </head>
     <body>
         <iframe
-            width="100"
-            height="20"
-            src="https://www.youtube.com/embed/"
+            width="0"
+            height="0"
+            src=""
             title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen
         ></iframe>
-        <p>This is the Listz's discord bot youtube embed page.</p>
-        <p>It won't show you the player as it is a quizz</p>
+        <p>This is the Liszt's discord bot YouTube embed page.</p>
+        <p>It won't show you the player as it is a quiz</p>
+        <button id="playButton">Play Video</button>
 
+        <div id="controls" style="display: none;">
+            <button id="pause">Pause</button>
+            <button id="stop">Reset</button>
+        </div>
         <script>
         // Set the video id from the GET parameter
         const urlParams = new URLSearchParams(window.location.search);
         const videoId = urlParams.get("id");
         // Set the video id to the iframe
         const iframe = document.querySelector("iframe");
-        
-        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&cc_load_policy=1`;
+        const playButton = document.getElementById("playButton");
+        const controls = document.getElementById("controls");
+        const pauseButton = document.getElementById("pause");
+        const stopButton = document.getElementById("stop");
 
+        let paused = false;
+
+        const playVideo = () => {
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&cc_load_policy=1&enablejsapi=1`;
+            playButton.style.display = "none";
+            controls.style.display = "flex";
+        };
+
+        const pauseVideo = () => {
+            const command = paused ? "playVideo" : "pauseVideo";
+            iframe.contentWindow.postMessage(
+                `{"event":"command","func":"${command}","args":""}`,
+                "*",
+            );
+            pauseButton.innerText = paused ? "Pause" : "Play";
+            paused = !paused;
+        };
+
+        const stopVideo = () => {
+            iframe.src = "";
+            playButton.style.display = "block";
+            controls.style.display = "none";
+            pauseButton.innerText = "Pause";
+            paused = false;
+        };
+
+        playButton.addEventListener("click", playVideo);
+        pauseButton.addEventListener("click", pauseVideo);
+        stopButton.addEventListener("click", stopVideo);
+
+        iframe.addEventListener("click", () => {
+            iframe.style.display = "none";
+        });
         </script>
+
         <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            /* background: linear-gradient(135deg, #f06, #4a90e2); */
+            /* color: #fff; */
+        }
+        button {
+            background-color: #6db1fd;
+            /* color: #fff; */
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            transition-duration: 200ms;
+        }
+        button:hover {
+            background-color: #357ab8;
+        }
+        #controls {
+            display: flex;
+            gap: 10px;
+        }
         </style>
     </body>
 </html>
