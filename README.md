@@ -1,1 +1,1 @@
-# liszt-bot
+# Liszt Discord bot
